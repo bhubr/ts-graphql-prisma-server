@@ -7,6 +7,11 @@ generator client {
   provider = "prisma-client-js"
 }
 
+generator typegraphql {
+  provider = "typegraphql-prisma"
+  output   = "../src/generated/graphql"
+}
+
 model Post {
   id        Int     @id @default(autoincrement())
   title     String

@@ -6,7 +6,5 @@ COPY package.json .
 RUN yarn
 
 COPY tsconfig.json .
-COPY prisma prisma
-COPY src src
 
 CMD yarn dev

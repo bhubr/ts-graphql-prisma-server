@@ -2,8 +2,16 @@
 
 ## Build Docker image
 
+Before renaming developmenet `Dockerfile` to `Dockerfile.dev`:
+
 ```
 docker build -t gql-node-server:latest .
+```
+
+After renaming developmenet `Dockerfile` to `Dockerfile.dev`:
+
+```
+docker build -t gql-node-server:latest -f Dockerfile.dev .
 ```
 
 ## Run Docker container

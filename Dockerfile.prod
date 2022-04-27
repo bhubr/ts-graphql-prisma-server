@@ -17,9 +17,8 @@ RUN yarn clean
 RUN yarn build
 
 # 2ème étape, qui crée l'image de production
-FROM node:16-alpine
+FROM node:16-alpine AS installer
 WORKDIR /app
-COPY --from=builder /app/dist ./dist
 COPY package.json .
 COPY yarn.lock .
 # --frozen-lockfile = équivalent de "npm ci" pour yarn
@@ -27,5 +26,20 @@ COPY yarn.lock .
 # --production pour ne pas installer les devDependencies
 RUN yarn install --frozen-lockfile --production
 RUN rm -rf /usr/local/share/.cache/
+# TEMP
+# COPY --from=builder /app/dist dist
 # CMD node dist/server
-RUN yarn start
+# RUN yarn start
+
+FROM node:16-alpine
+WORKDIR /app
+COPY package.json .
+COPY yarn.lock .
+COPY --from=builder /app/dist dist
+COPY --from=installer /app/node_modules node_modules
+COPY --from=builder /app/node_modules/.prisma node_modules/.prisma
+# --frozen-lockfile = équivalent de "npm ci" pour yarn
+# https://stackoverflow.com/a/58525708/1534675
+# --production pour ne pas installer les devDependencies
+# CMD node dist/server
+CMD yarn start

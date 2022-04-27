@@ -8,10 +8,16 @@ Before renaming developmenet `Dockerfile` to `Dockerfile.dev`:
 docker build -t gql-node-server:latest .
 ```
 
-After renaming developmenet `Dockerfile` to `Dockerfile.dev`:
+*After* renaming development `Dockerfile` to `Dockerfile.dev`, to build dev image:
 
 ```
-docker build -t gql-node-server:latest -f Dockerfile.dev .
+docker build -t gql-node-server-dev:latest -f Dockerfile.dev .
+```
+
+Building prod image:
+
+```
+docker build -t gql-node-server:latest -f Dockerfile.prod .
 ```
 
 ## Run Docker container

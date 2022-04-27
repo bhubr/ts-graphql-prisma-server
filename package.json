@@ -11,7 +11,10 @@
     "typescript": "4.6.3"
   },
   "scripts": {
-    "dev": "prisma generate && nodemon --exec ts-node --ext .ts ./src/index.ts"
+    "dev": "prisma generate && nodemon --exec ts-node --ext .ts ./src/index.ts",
+    "clean": "rm -rf ./dist/* ",
+    "build": "prisma generate && tsc",
+    "start": "node dist/index"
   },
   "dependencies": {
     "@prisma/client": "3.12.0",

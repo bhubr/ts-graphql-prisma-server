@@ -1,0 +1,31 @@
+# 1ere étape du multi-stage build
+# "AS builder" permettra de se référer à cette 1ère image
+# comme "builder" dans la 2ème étape
+FROM node:16-alpine AS builder
+
+WORKDIR /app
+
+COPY package.json .
+COPY yarn.lock .
+RUN yarn
+
+COPY tsconfig.json .
+COPY prisma prisma
+COPY src src
+
+RUN yarn clean
+RUN yarn build
+
+# 2ème étape, qui crée l'image de production
+FROM node:16-alpine
+WORKDIR /app
+COPY --from=builder /app/dist ./dist
+COPY package.json .
+COPY yarn.lock .
+# --frozen-lockfile = équivalent de "npm ci" pour yarn
+# https://stackoverflow.com/a/58525708/1534675
+# --production pour ne pas installer les devDependencies
+RUN yarn install --frozen-lockfile --production
+RUN rm -rf /usr/local/share/.cache/
+# CMD node dist/server
+RUN yarn start

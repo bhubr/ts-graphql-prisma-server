@@ -27,7 +27,8 @@ COPY yarn.lock .
 RUN yarn install --frozen-lockfile --production
 RUN rm -rf /usr/local/share/.cache/
 # TEMP
-# COPY --from=builder /app/dist dist
+COPY --from=builder /app/dist dist
+COPY --from=builder /app/node_modules/.prisma node_modules/.prisma
 # CMD node dist/server
 # RUN yarn start
 

@@ -23,5 +23,10 @@ docker build -t gql-node-server:latest -f Dockerfile.prod .
 ## Run Docker container
 
 ```
-docker run -it -p 4000:4000 -v $PWD/src:/app/src -v $PWD/prisma:/app/prisma --name gql-server --env DATABASE_URL="file:./dev.db" gql-node-server:latest
+docker run -it -p 4000:4000 \
+  -v $PWD/src:/app/src \
+  -v $PWD/prisma:/app/prisma \
+  --name gql-server \
+  --env DATABASE_URL="file:./dev.db" \
+  gql-node-server:latest
 ```
